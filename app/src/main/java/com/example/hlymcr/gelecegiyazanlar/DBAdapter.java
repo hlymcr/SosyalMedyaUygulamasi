@@ -12,9 +12,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 
 
 public class DBAdapter {
@@ -29,17 +34,18 @@ public class DBAdapter {
     public static final String KEY_CINSIYET = "cinsiyet";
     public static final String KEY_TARIH = "tarih";
     public static final String KEY_URL = "url";
+    public static final String    KEY_RESIM="resim";
     private static final String TAG = "DBAdapter";
 
 
-    private static final String DATABASE_NAME = "Veritabani1.db";
+    private static final String DATABASE_NAME = "Veritabani2.db";
 
-    private static final String DATABASE_TABLE = "kisiler";
+    private static final String DATABASE_TABLE = "kisi";
 
     private static final int DATABASE_VERSION = 1;
 
 
-    private static final String DATABASE_CREATE = "CREATE TABLE `kisiler` ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `isim` TEXT NOT NULL, `parola` TEXT NOT NULL, `email` TEXT NOT NULL, `cinsiyet` TEXT NOT NULL, `tarih` TEXT NOT NULL, `url` TEXT NOT NULL );";
+    private static final String DATABASE_CREATE = "CREATE TABLE \"kisi\" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `isim` TEXT NOT NULL, `parola` TEXT NOT NULL, `email` TEXT NOT NULL, `cinsiyet` TEXT NOT NULL, `tarih` TEXT NOT NULL, `url` TEXT NOT NULL, `resim` TEXT NOT NULL );";
 
 
     // Constructor
@@ -49,6 +55,7 @@ public class DBAdapter {
         this.context = context;
 
         DBHelper = new DatabaseHelper(context);
+
 
     }
 
@@ -150,7 +157,7 @@ public class DBAdapter {
         // the query results efficiently; as it does not have to load all data into memory
         Cursor mCursor = db.query(true, DATABASE_TABLE, new String[] {
 
-                KEY_ROWID,KEY_ISIM, KEY_PASS,KEY_EMAIL,KEY_CINSIYET,KEY_TARIH,KEY_URL}, KEY_ROWID+ " like '" + id +"%'", null, null, null, null, null);
+                KEY_ROWID,KEY_ISIM, KEY_PASS,KEY_EMAIL,KEY_CINSIYET,KEY_TARIH,KEY_URL,KEY_RESIM}, KEY_ROWID+ " like '" + id +"%'", null, null, null, null, null);
 
         if (mCursor != null) {
 
@@ -165,7 +172,7 @@ public class DBAdapter {
     {
 
         //username in şifresini döndürür geriye
-       Cursor cursor=db.query("kisiler", null, " isim=?", new String[]{userName}, null, null, null);
+       Cursor cursor=db.query("kisi", null, " isim=?", new String[]{userName}, null, null, null);
         if(cursor.getCount()<1) // UserName Not Exist
         {
             cursor.close();
@@ -182,7 +189,7 @@ public class DBAdapter {
     {
 
         //username in url bilgisini döndürür.
-        Cursor cursor=db.query("kisiler", null, " isim=?", new String[]{userName}, null, null, null);
+        Cursor cursor=db.query("kisi", null, " isim=?", new String[]{userName}, null, null, null);
         if(cursor.getCount()<1) // UserName Not Exist
         {
             cursor.close();
@@ -195,6 +202,8 @@ public class DBAdapter {
 
 
     }
+
+
     public void insertKisi(Kisi k) {
 
         // The class ContentValues allows to define key/values. The "key" represents the
@@ -211,9 +220,11 @@ public class DBAdapter {
         initialValues.put(KEY_CINSIYET, k.getCinsiyet());
         initialValues.put(KEY_TARIH, k.getTarih());
         initialValues.put(KEY_URL, k.getUrl());
+        initialValues.put(KEY_RESIM, k.getResim());
         db.insert(DATABASE_TABLE, null, initialValues);
 
 
     }
+
 
 }

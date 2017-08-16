@@ -1,5 +1,8 @@
 package com.example.hlymcr.gelecegiyazanlar;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,6 +19,9 @@ public class Kisi implements Serializable {
     private String tarih;
     private ArrayList<Kisi> arkadaslar;
     private String url;
+    private String resim;
+
+
 
 
     public Kisi(String isim, String password, String email, String cinsiyet, String tarih, String url) {
@@ -25,9 +31,10 @@ public class Kisi implements Serializable {
         this.cinsiyet = cinsiyet;
         this.tarih = tarih;
         arkadaslar = new ArrayList<>();
-        this.url = url;
-    }
 
+        this.url = url;
+
+    }
 
 
 
@@ -71,6 +78,14 @@ public class Kisi implements Serializable {
         this.cinsiyet = cinsiyet;
     }
 
+    public String getResim() {
+        return resim;
+    }
+
+    public void setResim(String resim) {
+        this.resim = resim;
+    }
+
     public String getTarih() {
         return tarih;
     }
@@ -78,6 +93,7 @@ public class Kisi implements Serializable {
     public void setTarih(String tarih) {
         this.tarih = tarih;
     }
+
 
     public ArrayList<Kisi> getArkadaslar() {
         return arkadaslar;

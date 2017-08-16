@@ -3,11 +3,11 @@ package com.example.hlymcr.gelecegiyazanlar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +19,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -31,6 +35,7 @@ public class Kayit extends AppCompatActivity {
 
     EditText ad,sifre,email,cinsiyet,url,tarih;
     String ad1,sifre1,email1,cinsiyet1,url1,tarih1;
+    private String jstring;
 
 
     private static final int SELECT_SINGLE_PICTURE = 101;
@@ -39,7 +44,11 @@ public class Kayit extends AppCompatActivity {
 
     public static final String IMAGE_TYPE = "image/*";
 
+    private Bitmap bp;
+    private byte[] photo;
+
     private ImageView selectedImagePreview;
+    private Kisi image;
 
     //Ses kayıt bölümü
     Button buttonStart, buttonStop, buttonPlayLastRecordAudio,
@@ -63,6 +72,18 @@ public class Kayit extends AppCompatActivity {
         cinsiyet=(EditText)findViewById(R.id.cinsiyet);
         url=(EditText)findViewById(R.id.url);
         tarih=(EditText)findViewById(R.id.tarih);
+
+
+        Bundle extras = getIntent().getExtras();
+
+
+
+        if (extras != null) {
+
+            jstring = extras.getString("IMAGE");
+
+        }
+        image = getMyImage(jstring);
 
         //Ses kayıt bölümü
 
@@ -242,6 +263,7 @@ public class Kayit extends AppCompatActivity {
         url1=url.getText().toString();
         tarih1=tarih.getText().toString();
 
+
         Kisi k = new Kisi(ad1,sifre1,email1,cinsiyet1,tarih1,url1);
 
         //kisi nesnesini dbAdabter ile veritabanımıza ekliyoruz
@@ -251,6 +273,67 @@ public class Kayit extends AppCompatActivity {
 
 
     }
+
+    private Kisi getMyImage(String image) {
+
+        try {
+
+            JSONObject job = new JSONObject(image);
+
+            return (new Kisi(job.getString("isim"),
+
+                    job.getString("parola"), job.getString("email"),job.getString("cinsiyet"),job.getString("tarih"),job.getString("url")
+
+            ));
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+    @Override protected void onSaveInstanceState(Bundle outState) {
+
+        // Save the user's current game state
+
+        if (jstring != null) {
+
+            outState.putString("jstring", jstring);
+
+        }
+
+        // Always call the superclass so it can save the view hierarchy state
+
+        super.onSaveInstanceState(outState);
+
+    }
+
+
+
+    @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        // Always call the superclass so it can restore the view hierarchy
+
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+
+        // Restore state members from saved instance
+
+        if (savedInstanceState.containsKey("jstring")) {
+
+            jstring = savedInstanceState.getString("jstring");
+
+        }
+
+    }
+
+
+
+
     public void Tarih(View view){
 
 
@@ -285,6 +368,7 @@ public class Kayit extends AppCompatActivity {
         selectedImagePreview = (ImageView)findViewById(R.id.resim);
 
 
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -301,36 +385,7 @@ public class Kayit extends AppCompatActivity {
                 //  String selectedImagePath = getPath(selectedImageUri);
                 //  selectedImagePreview.setImageURI(selectedImageUri);
             }
-            else if (requestCode == SELECT_MULTIPLE_PICTURE) {
-                //And in the Result handling check for that parameter:
-                if (Intent.ACTION_SEND_MULTIPLE.equals(data.getAction())
-                        && data.hasExtra(Intent.EXTRA_STREAM)) {
-                    // retrieve a collection of selected images
-                    ArrayList<Parcelable> list = data.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                    // iterate over these images
-                    if( list != null ) {
-                        for (Parcelable parcel : list) {
-                            Uri uri = (Uri) parcel;
-                            // handle the images one by one here
-                        }
-                    }
 
-                    // for now just show the last picture
-                    if( !list.isEmpty() ) {
-                        Uri imageUri = (Uri) list.get(list.size() - 1);
-
-                        try {
-                            selectedImagePreview.setImageBitmap(new UserPicture(imageUri, getContentResolver()).getBitmap());
-                        } catch (IOException e) {
-                            Log.e(MainActivity.class.getSimpleName(), "Failed to load image", e);
-                        }
-                        // original code
-                        //  String selectedImagePath = getPath(imageUri);
-                        //  selectedImagePreview.setImageURI(imageUri);
-                         //   displayPicture(selectedImagePath, selectedImagePreview);
-                    }
-                }
-            }
         } else {
             // report failure
             Toast.makeText(getApplicationContext(), R.string.msg_failed_to_get_intent_data, Toast.LENGTH_LONG).show();

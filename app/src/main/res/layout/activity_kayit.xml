@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple"
+    android:background="@android:color/holo_blue_light"
     tools:context="com.example.hlymcr.gelecegiyazanlar.Kayit">
 
     <RelativeLayout
@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/resim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="42dp" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/cinsiyet"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/holo_blue_bright"
         android:ems="10"
         android:hint="URL"
         android:inputType="textPersonName" />
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@android:color/holo_green_dark"
+        android:background="@android:color/holo_blue_bright"
         android:ems="10"
         android:hint="isim"
         android:inputType="textPersonName" />
@@ -64,7 +64,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/isim"
-        android:background="@android:color/holo_green_light"
+        android:background="@android:color/holo_blue_bright"
         android:ems="10"
         android:hint="parola"
         android:inputType="textPassword" />
@@ -76,7 +76,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/sifre"
-        android:background="@android:color/holo_orange_light"
+        android:background="@android:color/holo_blue_bright"
         android:ems="10"
         android:hint="e-mail"
         android:inputType="textEmailAddress" />
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/email"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/holo_red_light"
+        android:background="@android:color/holo_blue_bright"
         android:ems="10"
         android:hint="cinsiyet"
         android:inputType="textPersonName" />
@@ -107,11 +107,11 @@
         android:id="@+id/kayit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="Kayit"
-        android:text="Kayıt Ol"
-        android:layout_marginEnd="34dp"
+        android:layout_alignEnd="@+id/imageView2"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/imageView2" />
+        android:layout_marginEnd="34dp"
+        android:onClick="Kayit"
+        android:text="Kayıt Ol" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -136,26 +136,26 @@
         android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dur"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/sesk"
-        android:layout_marginBottom="28dp" />
+        android:layout_marginBottom="28dp"
+        android:text="Dur" />
 
     <Button
         android:id="@+id/cal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oynat"
         android:layout_above="@+id/stop"
-        android:layout_alignEnd="@+id/sesd" />
+        android:layout_alignEnd="@+id/sesd"
+        android:text="Oynat" />
 
     <Button
         android:id="@+id/sesd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:text="Durdur"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/cal"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginEnd="6dp"
+        android:text="Durdur" />
 
 </RelativeLayout>

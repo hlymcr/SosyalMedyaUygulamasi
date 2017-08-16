@@ -34,6 +34,10 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DBAdapter dbadapter = new DBAdapter(this);
+        dbadapter.open();
+
         setContentView(R.layout.activity_main2);
         Intent intent=getIntent();
         Bundle b=intent.getExtras();
@@ -48,6 +52,7 @@ public class Main2Activity extends AppCompatActivity {
         intent =getIntent();
         adi = intent.getStringExtra("adi");
         name.setText(adi);
+
 
     }
 
